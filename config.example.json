@@ -1,0 +1,91 @@
+{
+  "_readme": [
+    "Copy this file to config.json and fill in your own values. config.json is gitignored.",
+    "",
+    "This holds everything MACHINE-READ or PRIVATE: phone numbers, handles, Chrome",
+    "profiles, caps and ramp dates. The bin/ scripts read it directly.",
+    "",
+    "It deliberately does NOT hold brand voice or reply templates. Those live as prose in",
+    "brands/<slug>/ because they cannot survive being turned into config fields — a reply",
+    "assembled from JSON reads like a form letter, which is the exact failure this project",
+    "exists to prevent. Run bin/brand-init.sh <slug> to scaffold a brand kit from here.",
+    "",
+    "After editing, validate with:  bin/config-check.sh"
+  ],
+
+  "timezone": "Asia/Makassar",
+
+  "defaults": {
+    "daily_cap": 20,
+    "author_dedupe_days": 30,
+    "pace_seconds_min": 40,
+    "pace_seconds_max": 120,
+    "lead_max_age_days": 7,
+    "saturated_comment_count": 20,
+    "ramp": [
+      { "through_day": 7, "replies_per_day": 5 },
+      { "through_day": 14, "replies_per_day": 10 }
+    ]
+  },
+
+  "schedule": {
+    "_note": "Used by bin/due.sh to decide what to run in a loop. DM first on purpose: answering someone who already contacted you beats going looking for someone who hasn't.",
+    "working_hours": { "start": 8, "end": 21, "days": [1, 2, 3, 4, 5, 6, 7] },
+    "every_minutes": {
+      "social-dm": 30,
+      "social-prospect": 60,
+      "social-comments": 180
+    }
+  },
+
+  "brands": {
+    "example-scooter-rental": {
+      "display_name": "Example Scooter Rental",
+      "sells": "Motorbike and scooter rental",
+
+      "wa_number": "628123456789",
+
+      "chrome_profile": "example-scooter-rental",
+
+      "service_areas": ["Sunville", "Northbeach", "Old Town", "airport delivery"],
+      "excluded_areas": ["Farhaven", "West Point"],
+
+      "budget_floor": {
+        "_note": "Leads stating a budget below this are rejected — see social-prospect. Set null to disable.",
+        "daily": 115000,
+        "weekly": 700000,
+        "monthly": 1500000
+      },
+
+      "accounts": {
+        "threads": {
+          "handle": "@example_rental",
+          "enabled": false,
+          "ramp_start": null,
+          "daily_cap": 20
+        },
+        "tiktok": {
+          "handle": "@example_rental",
+          "enabled": false,
+          "ramp_start": null,
+          "daily_cap": 20
+        },
+        "instagram": {
+          "handle": "@example_rental",
+          "enabled": false,
+          "ramp_start": null,
+          "daily_cap": 10
+        }
+      }
+    }
+  },
+
+  "_field_notes": {
+    "wa_number": "Digits only, country code, no + or spaces. bin/wa-link.sh reads this.",
+    "enabled": "false blocks ALL activity for that account, prospecting included.",
+    "ramp_start": "YYYY-MM-DD, the date public replies were cleared. null = 0 replies/day, forever. This is how a read-only trial stays read-only: the agent physically cannot reply until a human sets a date.",
+    "daily_cap": "Steady-state ceiling after the ramp completes.",
+    "chrome_profile": "Which Chrome profile this brand is logged in to. One profile per brand is what stops brands replying as each other. NOTE: nothing enforces this — the extension attaches to whichever Chrome is connected. It is a label for you, and a reminder to confirm the logged-in account on screen before acting. A per-platform accounts.<platform>.profile still overrides it if you genuinely split a brand across profiles.",
+    "excluded_areas": "Places people repeatedly ask about that you do NOT serve. Lets the agent decline consistently instead of re-deciding."
+  }
+}

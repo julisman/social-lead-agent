@@ -1,0 +1,64 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bin/guard.sh:*)",
+      "Bash(bin/budget.sh:*)",
+      "Bash(bin/seen.sh:*)",
+      "Bash(bin/seen-add.sh:*)",
+      "Bash(bin/log-action.sh:*)",
+      "Bash(bin/lead-add.sh:*)",
+      "Bash(bin/cooldown.sh:*)",
+      "Bash(bin/pace.sh:*)",
+      "Bash(bin/wa-link.sh:*)",
+      "Bash(bin/config-check.sh:*)",
+      "Bash(bin/brand-init.sh:*)",
+      "Bash(./bin/guard.sh:*)",
+      "Bash(./bin/budget.sh:*)",
+      "Bash(./bin/seen.sh:*)",
+      "Bash(./bin/seen-add.sh:*)",
+      "Bash(./bin/log-action.sh:*)",
+      "Bash(./bin/lead-add.sh:*)",
+      "Bash(./bin/cooldown.sh:*)",
+      "Bash(./bin/pace.sh:*)",
+      "Bash(./bin/wa-link.sh:*)",
+      "Bash(./bin/config-check.sh:*)",
+      "Bash(./bin/brand-init.sh:*)",
+      "Bash(jq:*)",
+
+      "mcp__claude-in-chrome__tabs_context_mcp",
+      "mcp__claude-in-chrome__tabs_create_mcp",
+      "mcp__claude-in-chrome__tabs_close_mcp",
+      "mcp__claude-in-chrome__list_connected_browsers",
+      "mcp__claude-in-chrome__select_browser",
+      "mcp__claude-in-chrome__switch_browser",
+      "mcp__claude-in-chrome__navigate",
+      "mcp__claude-in-chrome__read_page",
+      "mcp__claude-in-chrome__get_page_text",
+      "mcp__claude-in-chrome__find",
+      "mcp__claude-in-chrome__computer",
+      "mcp__claude-in-chrome__form_input"
+    ],
+    "deny": [
+      "Bash(rm:*)",
+      "Bash(git push:*)",
+
+      "Write(config.json)",
+      "Edit(config.json)",
+      "Write(data/**)",
+      "Edit(data/**)"
+    ]
+  },
+
+  "_deny_rationale": [
+    "config.json and data/ are denied to the agent on purpose, not as an afterthought.",
+    "",
+    "config.json holds ramp_start, which decides whether an account may reply in public",
+    "at all. If the agent could edit it, the agent could clear itself to start talking to",
+    "strangers. Only a human sets that date.",
+    "",
+    "data/ holds the append-only leads, dedupe keys and audit log. Denying direct writes",
+    "forces every mutation through bin/, which validates the shape, stamps the timestamp",
+    "and keeps budget.sh's count honest. An agent that can rewrite the audit log is an",
+    "agent with no audit log."
+  ]
+}

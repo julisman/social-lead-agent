@@ -1,0 +1,25 @@
+# Private config — phone numbers, handles, Chrome profiles, caps, ramp dates.
+# Copy config.example.json to config.json and fill it in.
+config.json
+
+# Real brand kits: your prices, service area, voice, competitor notes.
+# The tracked template is brands/_example/.
+brands/*
+!brands/_example/
+!brands/_example/**
+
+# Standing watchlists: what you're hunting for and where.
+# The tracked template is watch/_example.md.
+watch/*
+!watch/_example.md
+
+# Local state: leads, conversations, audit log, cooldowns.
+data/
+
+# Reports and escalations contain customer names and phone numbers.
+reports/
+
+# Runtime
+PAUSED
+.DS_Store
+__pycache__/
